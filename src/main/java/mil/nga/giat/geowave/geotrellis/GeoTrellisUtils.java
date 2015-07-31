@@ -11,7 +11,7 @@ import org.geotools.coverage.grid.GridCoverage2D;
 
 public class GeoTrellisUtils
 {
-	public static MultiBandTile getTile(
+	public static MultiBandTile getMultiBandTileAsDoubleArrays(
 			final GridCoverage2D coverage ) {
 		final Tile[] bands = new Tile[coverage.getNumSampleDimensions()];
 		final Raster raster = coverage.getRenderedImage().getData();
@@ -37,5 +37,16 @@ public class GeoTrellisUtils
 		}
 		return new ArrayMultiBandTile(
 				bands);
+	}
+
+	public static Tile[] getSingleBandTileArray(
+			final GridCoverage2D gridCoverage ) {
+		final Tile[] bands = new Tile[gridCoverage.getNumSampleDimensions()];
+		for (int b = 0; b < bands.length; b++) {
+			bands[b] = new GridCoverageSingleBandTileWrapper(
+					gridCoverage,
+					b);
+		}
+		return bands;
 	}
 }
